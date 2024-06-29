@@ -23,7 +23,10 @@ impl Person {
 
 impl Display for Person {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_fmt(format_args!("Name: {} ({}) Commits: {}", self.name, self.email, self.commits))
+        f.write_fmt(format_args!(
+            "Name: {} ({}) Commits: {}",
+            self.name, self.email, self.commits
+        ))
     }
 }
 
@@ -44,14 +47,18 @@ fn main() -> Result<(), Box<dyn Error>> {
             let signature = commit.committer();
             let committer_name = signature.name().unwrap();
             let committer_email = signature.email().unwrap();
-            let entry = people.entry(committer_name.to_string())
-                .or_insert(Person::new(committer_name.to_string(), committer_email.to_string(), 0));
+            let entry = people
+                .entry(committer_name.to_string())
+                .or_insert(Person::new(
+                    committer_name.to_string(),
+                    committer_email.to_string(),
+                    0,
+                ));
             entry.commits += 1;
         })
         .collect();
 
-    people.into_values()
-        .for_each(|person| println!("{person}"));
+    people.into_values().for_each(|person| println!("{person}"));
 
     Ok(())
 }
