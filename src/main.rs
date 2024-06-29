@@ -41,7 +41,6 @@ fn main() -> Result<(), Box<dyn Error>> {
         .filter_map(|id| id.ok())
         .filter_map(|commit_id| repo.find_commit(commit_id).ok())
         .map(|commit| {
-            println!("{:?}", commit);
             let signature = commit.committer();
             let committer_name = signature.name().unwrap();
             let committer_email = signature.email().unwrap();
